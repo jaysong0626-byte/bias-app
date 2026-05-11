@@ -504,10 +504,8 @@ const SOURCES = [
   {id:'koreaboo', name:'Koreaboo',   av:'KB',  col:'#7C3AED', country:'글로벌',url:'https://www.koreaboo.com/feed/'},
 ];
 
-const PROXIES = [
-  u => `https://api.allorigins.win/get?url=${encodeURIComponent(u)}&_=${Date.now()}`,
-  u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
-];
+// 내 Vercel 서버를 통해 RSS를 가져와요 (CORS 문제 해결)
+const MY_API = '/api/rss';
 
 // ═══════════════════════════════════════════════
 //  앱 상태
@@ -759,17 +757,10 @@ function updDone(){
 //  RSS 가져오기
 // ═══════════════════════════════════════════════
 async function proxyFetch(url){
-  let last;
-  for(const mk of PROXIES){
-    const pu=mk(url);
-    try{
-      const r=await fetch(pu, {signal: AbortSignal.timeout ? AbortSignal.timeout(15000) : undefined});
-      if(!r.ok) throw new Error(`HTTP ${r.status}`);
-      if(pu.includes('allorigins')){const d=await r.json();if(!d.contents) throw new Error('empty');return d.contents;}
-      return await r.text();
-    }catch(e){last=e;}
-  }
-  throw last;
+  const apiUrl = MY_API + '?url=' + encodeURIComponent(url);
+  const r = await fetch(apiUrl);
+  if(!r.ok) throw new Error('HTTP ' + r.status);
+  return await r.text();
 }
 function strip(h){return(h||'').replace(/<[^>]+>/g,'').replace(/&[a-z#0-9]+;/gi,' ').replace(/\s+/g,' ').trim();}
 
