@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>BIAS — 글로벌 K-팝 뉴스</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css"/>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin/>
+<link rel="stylesheet" as="style" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css"/>
+<style>
+:root{
+  --bg:#fff;--bg2:#f7f7f8;--tx:#1a1a1a;--tx2:#6b7280;--bd:#e5e7eb;
+  --r:8px;--rl:12px;
+  --font:'Pretendard Variable',Pretendard,-apple-system,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;
+}
+@media(prefers-color-scheme:dark){:root{--bg:#18181b;--bg2:#27272a;--tx:#fafafa;--tx2:#a1a1aa;--bd:#3f3f46;}}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;font-family:var(--font);-webkit-font-smoothing:antialiased;
+  background:radial-gradient(circle at 20% 0%,#fce7f3 0%,transparent 40%),
+             radial-gradient(circle at 80% 100%,#ede9fe 0%,transparent 40%),#fafafa;}
+@media(prefers-color-scheme:dark){html,body{background:radial-gradient(circle at 20% 0%,#4a1d3f 0%,transparent 40%),radial-gradient(circle at 80% 100%,#2a1f47 0%,transparent 40%),#09090b;}}
+body{display:flex;align-items:center;justify-content:center;padding:20px;}
+
+.phone{width:360px;background:var(--bg);border:.5px solid var(--bd);border-radius:32px;overflow:hidden;
+  display:flex;flex-direction:column;height:680px;position:relative;
+  box-shadow:0 30px 80px rgba(244,114,182,.18),0 10px 30px rgba(0,0,0,.12);}
+.sbar{background:var(--bg);color:var(--tx);padding:10px 20px 8px;display:flex;
+  justify-content:space-between;align-items:center;font-size:12px;font-weight:500;flex-shrink:0;}
+.ca{flex:1;overflow:hidden;display:flex;flex-direction:column;min-height:0;}
+.sa{overflow-y:auto;flex:1;min-height:0;scrollbar-width:none;}
+.sa::-webkit-scrollbar{display:none;}
+.bnav{display:flex;background:var(--bg);border-top:.5px solid var(--bd);flex-shrink:0;}
+.nbtn{flex:1;padding:10px 0 8px;text-align:center;font-size:22px;cursor:pointer;border:none;background:none;color:var(--tx2);transition:color .15s;}
+.nbtn.active{color:#F472B6;}
+.scr{display:none;flex-direction:column;flex:1;overflow:hidden;min-height:0;}
+.scr.active{display:flex;}
+
+/* 온보딩 */
+.ob-hero{background:linear-gradient(135deg,#F472B6,#A855F7);padding:22px 16px 18px;flex-shrink:0;}
+.ob-hero h1{font-size:26px;font-weight:700;color:#fff;letter-spacing:1px;}
+.ob-hero p{font-size:12px;color:rgba(255,255,255,.9);margin-top:3px;}
+.lbl-xs{font-size:11px;color:var(--tx2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;}
+.lbtn{padding:10px 12px;border-radius:var(--r);border:.5px solid var(--bd);background:var(--bg);
+  font-size:13px;cursor:pointer;color:var(--tx);font-family:var(--font);transition:all .15s;}
+.lbtn:hover{border-color:#F9A8D4;}
+.lbtn.sel{border-color:#F472B6;background:#FDF2F8;color:#9D174D;}
+.sw{display:flex;align-items:center;gap:8px;background:var(--bg2);border:.5px solid var(--bd);
+  border-radius:var(--rl);padding:9px 12px;transition:border-color .15s;}
+.sw:focus-within{border-color:#F472B6;}
+.sw input{flex:1;border:none;background:none;outline:none;font-family:var(--font);font-size:13px;color:var(--tx);}
+.sw input::placeholder{color:var(--tx2);}
+.sbox{margin-top:6px;max-height:170px;overflow-y:auto;border:.5px solid var(--bd);border-radius:var(--r);background:var(--bg);}
+.sui{padding:9px 12px;cursor:pointer;display:flex;align-items:center;gap:10px;
+  border-bottom:.5px solid var(--bd);transition:background .1s;font-size:13px;color:var(--tx);}
+.sui:last-child{border-bottom:none;}
+.sui:hover{background:#FDF2F8;}
+.sui.nr{color:#9D174D;font-weight:500;}
+.sm2{font-size:11px;color:var(--tx2);margin-left:auto;}
+.tc{display:inline-flex;align-items:center;gap:5px;background:#FDF2F8;border:.5px solid #F9A8D4;
+  border-radius:20px;padding:5px 6px 5px 12px;font-size:12px;color:#9D174D;font-family:var(--font);
+  animation:pop .2s cubic-bezier(.16,1,.3,1);}
+@keyframes pop{from{transform:scale(.8);opacity:0;}to{transform:scale(1);opacity:1;}}
+.tx-x{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;
+  border-radius:50%;background:rgba(157,23,77,.1);cursor:pointer;font-size:11px;}
+.tx-x:hover{background:rgba(157,23,77,.2);}
+.nb{font-size:9px;background:#F472B6;color:#fff;padding:1px 5px;border-radius:20px;}
+.pt{display:inline-flex;align-items:center;gap:4px;background:var(--bg2);border:.5px solid var(--bd);
+  border-radius:20px;padding:5px 12px;font-size:12px;color:var(--tx2);cursor:pointer;
+  font-family:var(--font);transition:all .15s;}
+.pt:hover{border-color:#F9A8D4;color:#9D174D;}
+.pt.on{background:#FDF2F8;border-color:#F9A8D4;color:#9D174D;}
+.done-btn{width:100%;padding:14px;background:#F472B6;color:#fff;border:none;border-radius:var(--rl);
+  font-size:15px;font-weight:500;cursor:pointer;margin-top:16px;font-family:var(--font);
+  display:flex;align-items:center;justify-content:center;gap:6px;transition:background .15s;}
+.done-btn:hover{background:#EC4899;}
+.done-btn:disabled{background:var(--bd);cursor:not-allowed;}
+
+/* 피드 */
+.ftop{padding:12px 16px 8px;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:.5px solid var(--bd);flex-shrink:0;}
+.brand{font-size:20px;font-weight:700;letter-spacing:.5px;
+  background:linear-gradient(135deg,#F472B6,#A855F7);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.live-dot{font-size:9px;padding:2px 6px;border-radius:4px;background:#ECFDF5;color:#047857;
+  display:inline-flex;align-items:center;gap:3px;}
+.live-dot::before{content:'●';font-size:7px;animation:pulse 1.5s ease-in-out infinite;}
+.rbtn{background:none;border:none;cursor:pointer;color:var(--tx2);font-size:18px;
+  display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;
+  border-radius:50%;transition:background .15s;}
+.rbtn:hover{background:var(--bg2);color:#F472B6;}
+.rbtn.sp i{animation:spin .8s linear infinite;}
+@keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+.frow{display:flex;gap:8px;padding:10px 12px 8px;overflow-x:auto;flex-shrink:0;
+  border-bottom:.5px solid var(--bd);scrollbar-width:none;}
+.frow::-webkit-scrollbar{display:none;}
+.fc{flex-shrink:0;padding:5px 14px;border-radius:20px;font-size:12px;cursor:pointer;
+  border:.5px solid var(--bd);background:var(--bg);color:var(--tx2);transition:all .15s;}
+.fc.active{background:#F472B6;color:#fff;border-color:#F472B6;}
+
+/* 포스트 */
+.post{border-bottom:.5px solid var(--bd);}
+.phdr{display:flex;align-items:center;gap:10px;padding:10px 12px;}
+.av{width:34px;height:34px;border-radius:50%;border:1.5px solid #F472B6;
+  display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;
+  color:#9D174D;flex-shrink:0;background:#FDF2F8;}
+.piw{width:100%;aspect-ratio:4/3;position:relative;overflow:hidden;cursor:pointer;background:var(--bg2);}
+.piw img{width:100%;height:100%;object-fit:cover;transition:opacity .4s,transform .6s;opacity:0;}
+.piw img.ld{opacity:1;}
+.piw:hover img.ld{transform:scale(1.03);}
+.fb{width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+  font-size:34px;font-weight:700;color:rgba(255,255,255,.9);text-shadow:0 2px 8px rgba(0,0,0,.15);}
+.fb.g1{background:linear-gradient(135deg,#fce4ec,#f8bbd0);color:#9D174D;}
+.fb.g2{background:linear-gradient(135deg,#ede7f6,#d1c4e9);color:#4527A0;}
+.fb.g3{background:linear-gradient(135deg,#e8eaf6,#c5cae9);color:#1A237E;}
+.fb.g4{background:linear-gradient(135deg,#fff3e0,#ffe0b2);color:#E65100;}
+.fb.g5{background:linear-gradient(135deg,#e0f7fa,#b2ebf2);color:#006064;}
+.fb.g6{background:linear-gradient(135deg,#f3e5f5,#e1bee7);color:#4A148C;}
+.ptag{display:inline-block;background:#F472B6;color:#fff;font-size:10px;padding:2px 8px;border-radius:20px;margin-bottom:5px;}
+.ptag.tr{background:linear-gradient(135deg,#F472B6,#A855F7);}
+.pbody{padding:8px 12px 10px;}
+.ptitle{font-size:14px;font-weight:500;color:var(--tx);line-height:1.45;margin-bottom:4px;}
+.pdesc{font-size:12px;color:var(--tx2);line-height:1.55;display:-webkit-box;
+  -webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.pacts{display:flex;gap:14px;padding:2px 12px 8px;align-items:center;}
+.pa{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--tx2);
+  cursor:pointer;border:none;background:none;font-family:var(--font);}
+.pa i{font-size:18px;}
+.pa.liked i{color:#F472B6;}
+.pa.liked span{color:#F472B6;}
+/* 저장 버튼 */
+.pa.saved i{color:#F59E0B;}
+.pa.saved span{color:#F59E0B;}
+
+/* 번역 중 표시 */
+.tr-loading{display:flex;align-items:center;gap:6px;padding:8px 12px;
+  font-size:11px;color:var(--tx2);}
+.tr-loading i{font-size:13px;animation:spin .8s linear infinite;color:#A855F7;}
+
+/* 스켈레톤 */
+.sk-post{border-bottom:.5px solid var(--bd);padding-bottom:8px;}
+.sh{background:linear-gradient(90deg,var(--bg2) 0%,#f0f0f0 50%,var(--bg2) 100%);
+  background-size:200% 100%;animation:shimmer 1.4s ease-in-out infinite;}
+@keyframes shimmer{from{background-position:200% 0;}to{background-position:-200% 0;}}
+.sk-av{width:34px;height:34px;border-radius:50%;}
+.sk-h{display:flex;gap:10px;padding:10px 12px;align-items:center;}
+.sk-img{width:100%;aspect-ratio:4/3;}
+.sk-l1{width:80px;height:11px;border-radius:4px;margin-bottom:5px;}
+.sk-l2{width:120px;height:9px;border-radius:4px;}
+.sk-l3{width:88%;height:14px;border-radius:4px;margin:12px 12px 6px;}
+.sk-l4{width:60%;height:11px;border-radius:4px;margin:0 12px 12px;}
+.fload{display:flex;align-items:center;justify-content:center;padding:24px;gap:8px;}
+.dot{width:6px;height:6px;border-radius:50%;background:#F472B6;animation:db 1.2s ease-in-out infinite;}
+.dot:nth-child(2){animation-delay:.15s;}
+.dot:nth-child(3){animation-delay:.3s;}
+@keyframes db{0%,60%,100%{transform:translateY(0);opacity:.4;}30%{transform:translateY(-6px);opacity:1;}}
+.divider{padding:18px 16px 10px;display:flex;align-items:center;gap:10px;
+  background:linear-gradient(180deg,transparent,#FDF2F8 60%,#FDF2F8);}
+.divider .line{flex:1;height:.5px;background:#F9A8D4;}
+.divider .lbl{font-size:11px;font-weight:600;color:#9D174D;letter-spacing:.6px;
+  text-transform:uppercase;display:inline-flex;align-items:center;gap:5px;}
+.ferr{margin:12px;padding:14px;background:#FEF2F2;border:.5px solid #FCA5A5;
+  border-radius:var(--r);font-size:12px;color:#991B1B;line-height:1.5;}
+.ferr b{display:block;margin-bottom:4px;color:#7F1D1D;}
+.ferr button{margin-top:8px;padding:6px 12px;background:#fff;border:.5px solid #FCA5A5;
+  border-radius:6px;font-size:11px;color:#991B1B;cursor:pointer;font-family:var(--font);}
+.fempty{padding:40px 20px;text-align:center;}
+.fempty i{font-size:36px;color:var(--tx2);display:block;margin-bottom:10px;}
+.fempty p{font-size:13px;color:var(--tx);font-weight:500;margin-bottom:6px;}
+.fempty span{font-size:11px;color:var(--tx2);line-height:1.6;}
+
+/* 랭킹 */
+.rhdr{background:#F472B6;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.rlive{background:rgba(255,255,255,.2);color:#fff;font-size:10px;padding:3px 8px;border-radius:20px;display:inline-flex;align-items:center;gap:3px;}
+.rlive i{font-size:8px;animation:pulse 1.5s ease-in-out infinite;}
+.rflt{display:flex;gap:8px;padding:10px 12px;border-bottom:.5px solid var(--bd);flex-shrink:0;}
+.rfbtn{flex:1;background:var(--bg2);border:.5px solid var(--bd);border-radius:20px;padding:5px 0;
+  text-align:center;font-size:12px;color:var(--tx2);cursor:pointer;font-family:var(--font);}
+.rfbtn.active{background:#FDF2F8;border-color:#F9A8D4;color:#9D174D;font-weight:500;}
+.ri{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:.5px solid var(--bd);}
+.ri.t1{background:#FDF2F8;}
+.rn{font-size:16px;font-weight:500;width:22px;text-align:center;color:var(--tx2);}
+.rn.gold{color:#F59E0B;}.rn.silver{color:#9CA3AF;}.rn.bronze{color:#CD7C2F;}
+.rav{width:38px;height:38px;border-radius:50%;background:#FDF2F8;border:.5px solid #F9A8D4;
+  display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:#9D174D;flex-shrink:0;}
+.rinf{flex:1;}
+.rnm{font-size:13px;font-weight:500;color:var(--tx);}
+.rsc{font-size:11px;color:var(--tx2);}
+.rbg{background:var(--bg2);border-radius:4px;height:4px;margin-top:4px;width:72px;}
+.rbf{background:#F472B6;border-radius:4px;height:4px;transition:width .6s ease;}
+.rch{font-size:11px;min-width:30px;text-align:right;}
+.rup{color:#10B981;}.rdown{color:#EF4444;}.rsame{color:var(--tx2);}
+.rank-notice{margin:10px 12px;padding:10px 12px;background:#FEF3C7;border:.5px solid #FCD34D;
+  border-radius:var(--r);font-size:11px;color:#92400E;line-height:1.5;display:flex;align-items:flex-start;gap:8px;}
+.rank-notice i{font-size:14px;flex-shrink:0;margin-top:1px;}
+
+/* 검색 */
+.stop{padding:12px 14px;border-bottom:.5px solid var(--bd);flex-shrink:0;}
+.siw{display:flex;align-items:center;gap:8px;background:var(--bg2);border-radius:var(--rl);padding:9px 12px;}
+.siw input{flex:1;border:none;background:none;font-size:14px;color:var(--tx);outline:none;font-family:var(--font);}
+.siw input::placeholder{color:var(--tx2);}
+.sni{display:flex;gap:10px;padding:10px 14px;border-bottom:.5px solid var(--bd);cursor:pointer;transition:background .1s;}
+.sni:hover{background:var(--bg2);}
+.snt{width:64px;height:64px;border-radius:var(--r);flex-shrink:0;overflow:hidden;background:var(--bg2);
+  display:flex;align-items:center;justify-content:center;}
+.snt img{width:100%;height:100%;object-fit:cover;}
+.snt .fb2{font-size:18px;font-weight:700;color:#9D174D;}
+
+/* 스케줄 */
+.shdr{background:#F472B6;padding:14px 16px;flex-shrink:0;}
+.mnav{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:.5px solid var(--bd);flex-shrink:0;}
+.mb{background:none;border:.5px solid var(--bd);border-radius:var(--r);padding:4px 10px;font-size:12px;color:var(--tx2);cursor:pointer;font-family:var(--font);}
+.sfr{display:flex;gap:8px;padding:8px 12px;overflow-x:auto;border-bottom:.5px solid var(--bd);flex-shrink:0;scrollbar-width:none;}
+.sfr::-webkit-scrollbar{display:none;}
+.sch{flex-shrink:0;padding:4px 12px;border-radius:20px;font-size:11px;cursor:pointer;border:.5px solid var(--bd);background:var(--bg);color:var(--tx2);}
+.sch.active{background:#F472B6;color:#fff;border-color:#F472B6;}
+.sday{padding:10px 16px 4px;font-size:12px;font-weight:500;color:var(--tx2);}
+.sit{display:flex;align-items:flex-start;gap:10px;padding:10px 16px;border-bottom:.5px solid var(--bd);cursor:pointer;transition:background .15s;}
+.sit:hover{background:var(--bg2);}
+.sdot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:4px;}
+.scon{flex:1;min-width:0;}
+.sbadge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:20px;margin-bottom:4px;font-weight:500;}
+.bc{background:#FDF2F8;color:#9D174D;}.bn{background:#EDE7F6;color:#4527A0;}
+.bf{background:#E0F7FA;color:#006064;}.ba{background:#FFF8E1;color:#E65100;}
+.snm{font-size:13px;font-weight:500;color:var(--tx);line-height:1.4;}
+.sdt{font-size:11px;color:var(--tx2);margin-top:2px;}
+.ssc{font-size:10px;color:#F472B6;margin-top:3px;}
+.sadd{background:none;border:.5px solid var(--bd);border-radius:50%;width:32px;height:32px;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;color:var(--tx2);transition:all .15s;font-family:var(--font);}
+.sadd:hover{border-color:#F472B6;color:#F472B6;background:#FDF2F8;}
+.sadd.on{border-color:#10B981;color:#10B981;background:#ECFDF5;}
+.csb{margin:10px 12px;padding:10px 14px;border-radius:var(--rl);background:#FDF2F8;border:.5px solid #F9A8D4;display:flex;align-items:center;gap:10px;cursor:pointer;}
+
+/* 시트 */
+.overlay{position:absolute;inset:0;background:rgba(0,0,0,.4);z-index:99;animation:fi .2s ease-out;}
+@keyframes fi{from{opacity:0;}to{opacity:1;}}
+.sheet{position:absolute;bottom:0;left:0;right:0;background:var(--bg);border-radius:20px 20px 0 0;
+  border-top:.5px solid var(--bd);z-index:100;display:flex;flex-direction:column;
+  animation:su .3s cubic-bezier(.16,1,.3,1);max-height:92%;overflow-y:auto;padding-bottom:8px;}
+@keyframes su{from{transform:translateY(100%);}to{transform:translateY(0);}}
+.shdl{width:36px;height:4px;background:var(--bd);border-radius:2px;margin:10px auto 0;flex-shrink:0;}
+.shh{display:flex;align-items:center;justify-content:space-between;padding:6px 18px 10px;}
+.shc{background:none;border:none;font-size:20px;color:var(--tx2);cursor:pointer;}
+.sht{font-size:15px;font-weight:600;color:var(--tx);}
+.shsub{font-size:16px;font-weight:600;color:var(--tx);line-height:1.35;padding:8px 18px 4px;}
+.shb{padding:4px 18px 14px;}
+.mrow{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:.5px solid var(--bd);}
+.mrow:first-of-type{border-top:none;}
+.mic{width:32px;height:32px;border-radius:8px;background:#FDF2F8;color:#F472B6;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;}
+.ml{font-size:10px;color:var(--tx2);text-transform:uppercase;letter-spacing:.4px;}
+.mv{font-size:13px;color:var(--tx);margin-top:1px;word-break:break-word;}
+.sgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:6px 18px 0;}
+.ssbtn{display:flex;align-items:center;justify-content:center;gap:6px;padding:11px;border-radius:var(--r);
+  border:.5px solid var(--bd);background:var(--bg);font-size:12px;font-weight:500;color:var(--tx);
+  cursor:pointer;font-family:var(--font);transition:all .15s;}
+.ssbtn:hover{border-color:#F472B6;background:#FDF2F8;}
+.ssbtn i{font-size:16px;color:#F472B6;}
+.ssbtn.p{background:#F472B6;color:#fff;border-color:#F472B6;grid-column:1/-1;}
+.ssbtn.p i{color:#fff;}
+.ssbtn.p:hover{background:#EC4899;}
+.shnote{padding:10px 18px 4px;font-size:11px;color:var(--tx2);line-height:1.5;}
+
+/* 알림 설정 시트 */
+.notif-section{padding:12px 18px 6px;font-size:11px;color:var(--tx2);text-transform:uppercase;letter-spacing:.5px;font-weight:600;}
+.notif-row{display:flex;align-items:center;padding:12px 18px;border-bottom:.5px solid var(--bd);gap:12px;}
+.notif-row:last-child{border-bottom:none;}
+.notif-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.notif-info{flex:1;}
+.notif-title{font-size:13px;font-weight:500;color:var(--tx);}
+.notif-desc{font-size:11px;color:var(--tx2);margin-top:2px;line-height:1.4;}
+/* 토글 스위치 */
+.toggle{position:relative;width:42px;height:24px;flex-shrink:0;}
+.toggle input{opacity:0;width:0;height:0;}
+.toggle-track{position:absolute;inset:0;border-radius:12px;background:var(--bd);cursor:pointer;transition:background .2s;}
+.toggle input:checked + .toggle-track{background:#F472B6;}
+.toggle-thumb{position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;
+  background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.2);transition:transform .2s;pointer-events:none;}
+.toggle input:checked ~ .toggle-thumb{transform:translateX(18px);}
+/* 라디오 선택 */
+.radio-group{display:flex;flex-direction:column;gap:6px;margin-top:8px;}
+.radio-opt{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:var(--r);
+  border:.5px solid var(--bd);cursor:pointer;transition:all .15s;}
+.radio-opt.sel{border-color:#F472B6;background:#FDF2F8;}
+.radio-dot{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--bd);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.radio-opt.sel .radio-dot{border-color:#F472B6;background:#F472B6;}
+.radio-opt.sel .radio-dot::after{content:'';width:5px;height:5px;border-radius:50%;background:#fff;}
+.radio-label{font-size:13px;color:var(--tx);}
+.radio-sub{font-size:11px;color:var(--tx2);margin-top:1px;}
+
+/* 프로필 */
+.phdr2{background:#F472B6;padding:20px 16px 22px;display:flex;flex-direction:column;align-items:center;flex-shrink:0;}
+.pav{width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.25);border:2px solid rgba(255,255,255,.6);
+  display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:500;color:#fff;margin-bottom:8px;}
+.ichip{display:inline-block;background:#FDF2F8;border:.5px solid #F9A8D4;border-radius:20px;padding:5px 12px;margin:3px;font-size:12px;color:#9D174D;}
+.setr{display:flex;align-items:center;padding:13px 16px;border-bottom:.5px solid var(--bd);cursor:pointer;}
+.seti{font-size:18px;color:#F472B6;margin-right:12px;}
+.setl{flex:1;font-size:14px;color:var(--tx);}
+.setv{font-size:13px;color:var(--tx2);margin-right:6px;}
+/* 프로필 통계 탭 */
+.stat-tabs{display:flex;border-bottom:.5px solid var(--bd);flex-shrink:0;}
+.stab{flex:1;padding:10px;text-align:center;font-size:12px;font-weight:500;color:var(--tx2);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;}
+.stab.active{color:#F472B6;border-bottom-color:#F472B6;}
+/* 저장된 기사 */
+.saved-item{display:flex;gap:10px;padding:10px 14px;border-bottom:.5px solid var(--bd);cursor:pointer;transition:background .1s;}
+.saved-item:hover{background:var(--bg2);}
+.saved-thumb{width:56px;height:56px;border-radius:var(--r);flex-shrink:0;overflow:hidden;background:var(--bg2);
+  display:flex;align-items:center;justify-content:center;}
+.saved-thumb img{width:100%;height:100%;object-fit:cover;}
+.saved-thumb .fi{font-size:18px;font-weight:700;color:#9D174D;}
+
+/* 토스트 */
+.toast{position:absolute;left:50%;bottom:80px;transform:translateX(-50%);
+  background:rgba(26,26,26,.92);color:#fff;padding:9px 16px;border-radius:20px;
+  font-size:12px;z-index:200;animation:ti .25s ease-out;
+  display:flex;align-items:center;gap:6px;white-space:nowrap;max-width:80%;}
+@keyframes ti{from{opacity:0;transform:translate(-50%,8px);}to{opacity:1;transform:translate(-50%,0);}}
+
+@media(max-width:400px){
+  body{padding:0;align-items:stretch;background:var(--bg);}
+  .phone{width:100%;height:100vh;height:100dvh;border-radius:0;border:none;box-shadow:none;}
+}
+</style>
+</head>
+<body>
+<div class="phone" id="phone">
+  <div class="sbar">
+    <span>9:41</span>
+    <span style="display:flex;gap:6px;align-items:center;">
+      <i class="ti ti-wifi" style="font-size:13px;"></i>
+      <i class="ti ti-battery-2" style="font-size:13px;"></i>
+    </span>
+  </div>
+
+  <!-- 온보딩 -->
+  <div id="ob" style="display:flex;flex-direction:column;flex:1;overflow:hidden;">
+    <div class="ob-hero"><h1>BIAS</h1><p>전 세계 K-팝 뉴스를 내 언어로, 내 최애를 중심으로</p></div>
+    <div class="sa" style="padding:20px 16px;">
+      <div style="margin-bottom:22px;">
+        <div class="lbl-xs">언어 선택</div>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;">
+          <button class="lbtn sel" onclick="selLang(this,'ko','한국어')">🇰🇷 한국어</button>
+          <button class="lbtn" onclick="selLang(this,'en','English')">🇺🇸 English</button>
+          <button class="lbtn" onclick="selLang(this,'ja','日本語')">🇯🇵 日本語</button>
+          <button class="lbtn" onclick="selLang(this,'zh','中文')">🇨🇳 中文</button>
+          <button class="lbtn" onclick="selLang(this,'es','Español')">🇪🇸 Español</button>
+          <button class="lbtn" onclick="selLang(this,'pt','Português')">🇧🇷 Português</button>
+        </div>
+      </div>
+      <div>
+        <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px;">
+          <div class="lbl-xs" style="margin-bottom:0;">내 최애 추가하기</div>
+          <div id="idolCnt" style="font-size:11px;color:#F472B6;font-weight:500;">0개 추가됨</div>
+        </div>
+        <div class="sw">
+          <i class="ti ti-hash" style="font-size:15px;color:#F472B6;"></i>
+          <input id="idolInp" placeholder="그룹/아티스트 이름 검색"
+            oninput="onII(this.value)"
+            onkeydown="if(event.key==='Enter'){event.preventDefault();addFromInp();}"/>
+        </div>
+        <div id="suggB" class="sbox" style="display:none;"></div>
+        <div id="tagB" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;min-height:28px;"></div>
+        <div style="margin-top:14px;">
+          <div style="font-size:10px;color:var(--tx2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">
+            <i class="ti ti-flame" style="font-size:11px;color:#F472B6;"></i> 지금 뜨는 그룹
+          </div>
+          <div id="popB" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+        </div>
+      </div>
+      <button class="done-btn" id="doneBtn" onclick="startApp()" disabled>
+        <span id="doneLbl">최애를 1명 이상 추가해주세요</span>
+        <i class="ti ti-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- 메인 앱 -->
+  <div id="app" style="display:none;flex-direction:column;flex:1;overflow:hidden;min-height:0;">
+    <div class="ca">
+
+      <!-- 홈 -->
+      <div class="scr active" id="scr-home">
+        <div class="ftop">
+          <div style="display:flex;align-items:center;gap:6px;">
+            <div class="brand">BIAS</div>
+            <span class="live-dot">LIVE</span>
+          </div>
+          <button class="rbtn" id="refBtn" onclick="doRefresh()" aria-label="새로고침">
+            <i class="ti ti-refresh"></i>
+          </button>
+        </div>
+        <div class="frow" id="filterRow"></div>
+        <div class="sa" id="feedScroll" onscroll="onScroll()">
+          <div id="feedBox"></div>
+        </div>
+      </div>
+
+      <!-- 랭킹 -->
+      <div class="scr" id="scr-rank">
+        <div class="rhdr">
+          <div>
+            <div style="font-size:15px;font-weight:500;color:#fff;">글로벌 실시간 랭킹</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.8);margin-top:2px;">검색량 · SNS · 트래픽 종합</div>
+          </div>
+          <div class="rlive"><i class="ti ti-circle-filled"></i>LIVE</div>
+        </div>
+        <div class="rflt">
+          <div class="rfbtn active" onclick="selRF(this,'all')">전체</div>
+          <div class="rfbtn" onclick="selRF(this,'girl')">걸그룹</div>
+          <div class="rfbtn" onclick="selRF(this,'boy')">보이그룹</div>
+        </div>
+        <div class="sa" id="rankList"></div>
+      </div>
+
+      <!-- 검색 -->
+      <div class="scr" id="scr-search">
+        <div class="stop">
+          <div class="siw">
+            <i class="ti ti-search" style="font-size:16px;color:var(--tx2);"></i>
+            <input id="searchInp" placeholder="아이돌, 그룹명으로 검색" oninput="onSrch(this.value)"/>
+            <i class="ti ti-x" style="font-size:16px;color:var(--tx2);cursor:pointer;" onclick="clrSrch()"></i>
+          </div>
+        </div>
+        <div class="sa" id="searchBox"></div>
+      </div>
+
+      <!-- 스케줄 -->
+      <div class="scr" id="scr-sched">
+        <div class="shdr">
+          <div style="font-size:15px;font-weight:500;color:#fff;">K-팝 스케줄</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.8);margin-top:2px;">컴백 · 콘서트 · 팬미팅 · 시상식</div>
+        </div>
+        <div class="mnav">
+          <button class="mb"><i class="ti ti-chevron-left" style="font-size:13px;"></i></button>
+          <div style="font-size:14px;font-weight:500;color:var(--tx);">2026년 5월</div>
+          <button class="mb"><i class="ti ti-chevron-right" style="font-size:13px;"></i></button>
+        </div>
+        <div class="sfr">
+          <div class="sch active" onclick="selSF(this)">전체</div>
+          <div class="sch" onclick="selSF(this)">컴백</div>
+          <div class="sch" onclick="selSF(this)">콘서트</div>
+          <div class="sch" onclick="selSF(this)">팬미팅</div>
+          <div class="sch" onclick="selSF(this)">시상식</div>
+          <div class="sch" onclick="selSF(this)">내 아이돌</div>
+        </div>
+        <div class="sa" id="schedBox"></div>
+      </div>
+
+      <!-- 프로필 -->
+      <div class="scr" id="scr-profile">
+        <div class="phdr2">
+          <div class="pav">A</div>
+          <div style="font-size:16px;font-weight:500;color:#fff;">아미_서울</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.8);margin-top:2px;" id="profLangRow">🇰🇷 대한민국 · 한국어</div>
+          <div style="display:flex;gap:20px;margin-top:12px;">
+            <div onclick="switchProfTab('read')" style="cursor:pointer;"><div style="font-size:17px;font-weight:500;color:#fff;text-align:center;" id="pR">0</div><div style="font-size:10px;color:rgba(255,255,255,.75);text-align:center;margin-top:1px;">읽은 기사</div></div>
+            <div onclick="switchProfTab('saved')" style="cursor:pointer;"><div style="font-size:17px;font-weight:500;color:#fff;text-align:center;" id="pS">0</div><div style="font-size:10px;color:rgba(255,255,255,.75);text-align:center;margin-top:1px;">저장한 기사</div></div>
+            <div><div style="font-size:17px;font-weight:500;color:#fff;text-align:center;" id="pF">0</div><div style="font-size:10px;color:rgba(255,255,255,.75);text-align:center;margin-top:1px;">팔로우</div></div>
+          </div>
+        </div>
+        <div style="padding:14px 16px;border-bottom:.5px solid var(--bd);">
+          <div style="font-size:13px;font-weight:500;color:var(--tx);margin-bottom:8px;">내 최애</div>
+          <div id="profIdols"></div>
+        </div>
+        <!-- 탭 -->
+        <div class="stat-tabs">
+          <div class="stab active" id="stab-read" onclick="switchProfTab('read')">읽은 기사</div>
+          <div class="stab" id="stab-saved" onclick="switchProfTab('saved')">⭐ 저장한 기사</div>
+        </div>
+        <div class="sa" id="profContent"></div>
+        <div style="height:8px;background:var(--bg2);flex-shrink:0;"></div>
+        <div class="setr" onclick="showSrcSheet()"><i class="ti ti-rss seti"></i><span class="setl">뉴스 소스 정보</span><i class="ti ti-chevron-right" style="color:var(--tx2);font-size:16px;"></i></div>
+        <div class="setr" onclick="showNotifSheet()"><i class="ti ti-bell seti"></i><span class="setl">알림 설정</span><span class="setv" id="notifLabel">스마트 묶음</span><i class="ti ti-chevron-right" style="color:var(--tx2);font-size:16px;"></i></div>
+        <div class="setr"><i class="ti ti-language seti"></i><span class="setl">언어 설정</span><span class="setv" id="langLabel">한국어</span><i class="ti ti-chevron-right" style="color:var(--tx2);font-size:16px;"></i></div>
+        <div class="setr"><i class="ti ti-star seti"></i><span class="setl">관심 아이돌 관리</span><i class="ti ti-chevron-right" style="color:var(--tx2);font-size:16px;"></i></div>
+      </div>
+    </div>
+
+    <div class="bnav">
+      <button class="nbtn active" id="tab-home"    onclick="goTab('home')"    aria-label="홈"><i class="ti ti-home"></i></button>
+      <button class="nbtn"        id="tab-rank"    onclick="goTab('rank')"    aria-label="랭킹"><i class="ti ti-trophy"></i></button>
+      <button class="nbtn"        id="tab-search"  onclick="goTab('search')"  aria-label="검색"><i class="ti ti-search"></i></button>
+      <button class="nbtn"        id="tab-sched"   onclick="goTab('sched')"   aria-label="스케줄"><i class="ti ti-calendar"></i></button>
+      <button class="nbtn"        id="tab-profile" onclick="goTab('profile')" aria-label="내 정보"><i class="ti ti-user"></i></button>
+    </div>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+// ═══════════════════════════════════════════════
+//  RSS 소스
+// ═══════════════════════════════════════════════
+const SOURCES = [
+  {id:'osen',     name:'OSEN',       av:'OS',  col:'#0277BD', country:'한국',  url:'https://osen.mt.co.kr/rss/entertain.xml'},
+  {id:'newsen',   name:'뉴스엔',     av:'뉴엔',col:'#7B1FA2', country:'한국',  url:'https://www.newsen.com/rss/news_104.xml'},
+  {id:'mydaily',  name:'마이데일리', av:'MD',  col:'#D81B60', country:'한국',  url:'https://www.mydaily.co.kr/rss/rss_section_n_4.xml'},
+  {id:'tenasia',  name:'텐아시아',   av:'TA',  col:'#00838F', country:'한국',  url:'https://tenasia.hankyung.com/rss/section_5.xml'},
+  {id:'chosun',   name:'스포츠조선', av:'조선',col:'#1565C0', country:'한국',  url:'https://sports.chosun.com/rss/entertain.xml'},
+  {id:'star_mk',  name:'스타MK',     av:'MK',  col:'#283593', country:'한국',  url:'https://star.mk.co.kr/rss/40300031/news.xml'},
+  {id:'soompi',   name:'Soompi',     av:'SP',  col:'#9D174D', country:'글로벌',url:'https://www.soompi.com/feed'},
+  {id:'allkpop',  name:'allkpop',    av:'AK',  col:'#F472B6', country:'글로벌',url:'https://www.allkpop.com/feed'},
+  {id:'koreaboo', name:'Koreaboo',   av:'KB',  col:'#7C3AED', country:'글로벌',url:'https://www.koreaboo.com/feed/'},
+];
+
+const PROXIES = [
+  u => `https://api.allorigins.win/get?url=${encodeURIComponent(u)}&_=${Date.now()}`,
+  u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
+];
+
+// ═══════════════════════════════════════════════
+//  앱 상태
+// ═══════════════════════════════════════════════
+const S = {
+  idols: [],
+  lang: 'ko', langName: '한국어',
+  activeFilter: '전체',
+  allArts: [],
+  personal: [], trending: [],
+  shownP: 0, shownT: 0, trendOn: false,
+  loading: false, fetched: 0, failed: [],
+  read: new Map(),    // id → article
+  saved: new Map(),   // id → article
+  addedSched: new Set(),
+  rankFilter: 'all',
+  profTab: 'read',
+  notifMode: 'smart', // 'instant' | 'smart' | 'daily' | 'off'
+  notifKeywords: true,
+  trCache: {},
+};
+
+const PAGE = 7;
+
+const LANG_TARGET = {ko:'한국어',en:'English',ja:'日本語',zh:'中文（简体）',es:'Español',pt:'Português (Brasil)'};
+
+// ═══════════════════════════════════════════════
+//  아이돌 DB
+// ═══════════════════════════════════════════════
+const IDOL_DB = [
+  {name:'BTS',kind:'보이그룹',alt:['방탄소년단','bts','뱅탄']},
+  {name:'BLACKPINK',kind:'걸그룹',alt:['블랙핑크','blackpink','블핑']},
+  {name:'aespa',kind:'걸그룹',alt:['에스파','aespa']},
+  {name:'Stray Kids',kind:'보이그룹',alt:['스트레이키즈','straykids','스키즈']},
+  {name:'TWICE',kind:'걸그룹',alt:['트와이스','twice']},
+  {name:'NewJeans',kind:'걸그룹',alt:['뉴진스','newjeans','njz','엔제이지']},
+  {name:'SEVENTEEN',kind:'보이그룹',alt:['세븐틴','seventeen','svt']},
+  {name:'EXO',kind:'보이그룹',alt:['엑소','exo']},
+  {name:'IVE',kind:'걸그룹',alt:['아이브','ive']},
+  {name:'LE SSERAFIM',kind:'걸그룹',alt:['르세라핌','lesserafim','르세']},
+  {name:'ITZY',kind:'걸그룹',alt:['있지','itzy']},
+  {name:'TXT',kind:'보이그룹',alt:['투바투','txt','투모로우바이투게더']},
+  {name:'ENHYPEN',kind:'보이그룹',alt:['엔하이픈','enhypen']},
+  {name:'ATEEZ',kind:'보이그룹',alt:['에이티즈','ateez']},
+  {name:'ZEROBASEONE',kind:'보이그룹',alt:['제로베이스원','zb1']},
+  {name:'RIIZE',kind:'보이그룹',alt:['라이즈','riize']},
+  {name:'BABYMONSTER',kind:'걸그룹',alt:['베이비몬스터','babymonster','베몬']},
+  {name:'ILLIT',kind:'걸그룹',alt:['아일릿','illit']},
+  {name:'NMIXX',kind:'걸그룹',alt:['엔믹스','nmixx']},
+  {name:'TWS',kind:'보이그룹',alt:['투어스','tws']},
+  {name:'NCT',kind:'보이그룹',alt:['엔시티','nct']},
+  {name:'Red Velvet',kind:'걸그룹',alt:['레드벨벳','redvelvet','레벨']},
+  {name:'(G)I-DLE',kind:'걸그룹',alt:['여자아이들','gidle','아이들']},
+  {name:'GOT7',kind:'보이그룹',alt:['갓세븐','got7']},
+  {name:'Jungkook',kind:'솔로',alt:['정국','jungkook']},
+  {name:'V',kind:'솔로',alt:['뷔','김태형']},
+  {name:'IU',kind:'솔로',alt:['아이유','iu','이지은']},
+  {name:'Lisa',kind:'솔로',alt:['리사','lisa']},
+  {name:'Jennie',kind:'솔로',alt:['제니','jennie']},
+  {name:'Rosé',kind:'솔로',alt:['로제','rose']},
+  {name:'Karina',kind:'솔로',alt:['카리나','karina']},
+];
+const POP_TAGS = ['BTS','BLACKPINK','aespa','NewJeans','Stray Kids','SEVENTEEN','IVE','TWICE'];
+
+const RANK_DATA = [
+  {name:'BTS',abbr:'BTS',score:'9,842K',bar:98,change:'+2',dir:'up',kind:'boy'},
+  {name:'BLACKPINK',abbr:'BP',score:'8,210K',bar:82,change:'—',dir:'same',kind:'girl'},
+  {name:'aespa',abbr:'AE',score:'7,650K',bar:76,change:'+1',dir:'up',kind:'girl'},
+  {name:'Stray Kids',abbr:'SK',score:'6,920K',bar:69,change:'-1',dir:'down',kind:'boy'},
+  {name:'TWICE',abbr:'TW',score:'5,800K',bar:58,change:'+3',dir:'up',kind:'girl'},
+  {name:'NewJeans',abbr:'NJ',score:'5,100K',bar:51,change:'+2',dir:'up',kind:'girl'},
+  {name:'SEVENTEEN',abbr:'SVT',score:'4,800K',bar:48,change:'—',dir:'same',kind:'boy'},
+  {name:'EXO',abbr:'EXO',score:'4,310K',bar:43,change:'-2',dir:'down',kind:'boy'},
+  {name:'IVE',abbr:'IVE',score:'4,100K',bar:41,change:'+4',dir:'up',kind:'girl'},
+  {name:'LE SSERAFIM',abbr:'LSF',score:'3,900K',bar:39,change:'+1',dir:'up',kind:'girl'},
+  {name:'TXT',abbr:'TXT',score:'3,700K',bar:37,change:'-1',dir:'down',kind:'boy'},
+  {name:'ENHYPEN',abbr:'EN',score:'3,500K',bar:35,change:'+2',dir:'up',kind:'boy'},
+  {name:'ATEEZ',abbr:'ATZ',score:'3,300K',bar:33,change:'—',dir:'same',kind:'boy'},
+  {name:'ITZY',abbr:'ITZY',score:'3,100K',bar:31,change:'+1',dir:'up',kind:'girl'},
+  {name:'RIIZE',abbr:'RZ',score:'2,900K',bar:29,change:'+3',dir:'up',kind:'boy'},
+  {name:'BABYMONSTER',abbr:'BM',score:'2,800K',bar:28,change:'+5',dir:'up',kind:'girl'},
+];
+
+// ═══════════════════════════════════════════════
+//  유틸
+// ═══════════════════════════════════════════════
+const esc = s => String(s??'').replace(/[&<>"']/g,
+  m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+
+function toast(msg, icon='ti-check') {
+  const p = document.getElementById('phone');
+  p.querySelector('.toast')?.remove();
+  const t = document.createElement('div');
+  t.className='toast';
+  t.innerHTML=`<i class="ti ${icon}"></i> ${esc(msg)}`;
+  p.appendChild(t);
+  setTimeout(()=>t.style.opacity='0',1800);
+  setTimeout(()=>t.remove(),2100);
+}
+function fmtN(n){return n>=1000?(n/1000).toFixed(1)+'K':String(n);}
+function ago(d){
+  if(!d) return '';
+  const s=(Date.now()-d.getTime())/1000;
+  if(s<60) return '방금 전';
+  if(s<3600) return `${Math.floor(s/60)}분 전`;
+  if(s<86400) return `${Math.floor(s/3600)}시간 전`;
+  if(s<604800) return `${Math.floor(s/86400)}일 전`;
+  return d.toLocaleDateString('ko-KR');
+}
+function hashG(s){let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))|0;return(Math.abs(h)%6)+1;}
+
+// ═══════════════════════════════════════════════
+//  번역 — 핵심 수정: 항상 원문 언어 감지 후 번역
+// ═══════════════════════════════════════════════
+function isKorean(text) { return /[가-힣]/.test(text); }
+function isEnglish(text) { return /^[a-zA-Z0-9\s\p{P}'"''""\-\u2013\u2014…]+$/u.test(text.trim()); }
+
+function needsTranslation(text) {
+  if (!text) return false;
+  // 한국어 목표 → 영어/기타 외국어면 번역 필요
+  if (S.lang === 'ko') return !isKorean(text) && text.length > 5;
+  // 영어 목표 → 한국어면 번역 필요
+  if (S.lang === 'en') return isKorean(text);
+  // 그 외 언어 → 항상 번역
+  return true;
+}
+
+async function translateText(text) {
+  if (!text || text.length < 3) return text;
+  if (!needsTranslation(text)) return text;
+
+  const cacheKey = `${S.lang}::${text.slice(0, 120)}`;
+  if (S.trCache[cacheKey]) return S.trCache[cacheKey];
+
+  const target = LANG_TARGET[S.lang] || '한국어';
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 400,
+        system: `Translate the following text to ${target}. Output ONLY the translated text. No explanation, no quotes, no preamble. Keep proper nouns (names of K-pop groups, artists) as-is.`,
+        messages: [{role:'user', content: text}],
+      })
+    });
+    if (!res.ok) throw new Error(`API ${res.status}`);
+    const d = await res.json();
+    const out = d.content?.[0]?.text?.trim() || text;
+    S.trCache[cacheKey] = out;
+    return out;
+  } catch(e) {
+    console.warn('[BIAS] 번역 실패:', e.message);
+    return text;
+  }
+}
+
+async function translateBatch(arts) {
+  // 번역이 필요한 것만 골라서 처리 (5개 단위 병렬)
+  const results = [];
+  for (let i = 0; i < arts.length; i += 5) {
+    const batch = arts.slice(i, i+5);
+    const done = await Promise.all(batch.map(async a => {
+      const titleNeedsTr = needsTranslation(a.title);
+      const descNeedsTr  = needsTranslation(a.desc);
+      const [titleTr, descTr] = await Promise.all([
+        titleNeedsTr ? translateText(a.title) : Promise.resolve(a.title),
+        descNeedsTr  ? translateText(a.desc)  : Promise.resolve(a.desc),
+      ]);
+      return {...a, titleTr, descTr};
+    }));
+    results.push(...done);
+  }
+  return results;
+}
+
+// ═══════════════════════════════════════════════
+//  온보딩
+// ═══════════════════════════════════════════════
+function selLang(btn, code, name) {
+  btn.parentElement.querySelectorAll('.lbtn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  S.lang=code; S.langName=name;
+}
+const hasIdol = n => S.idols.some(i=>i.name.toLowerCase()===n.toLowerCase());
+
+function onII(val) {
+  const box=document.getElementById('suggB'), q=val.trim();
+  if (!q){box.style.display='none';return;}
+  const hits=IDOL_DB.filter(x=>
+    x.name.toLowerCase().includes(q.toLowerCase())||
+    x.alt.some(a=>a.toLowerCase().includes(q.toLowerCase()))
+  ).slice(0,6);
+  let html=hits.map(x=>{
+    const done=hasIdol(x.name);
+    return `<div class="sui${done?'':''}" style="${done?'opacity:.5;cursor:default;':''}"
+      onclick="${done?'':` addTag('${esc(x.name)}',false)`}">
+      <i class="ti ti-hash" style="color:#F472B6;font-size:14px;"></i>
+      <b style="font-size:13px;">${esc(x.name)}</b>
+      <span style="font-size:11px;color:var(--tx2);">${esc(x.kind)}</span>
+      ${done?'<span class="sm2" style="color:#10B981;"><i class="ti ti-check"></i> 추가됨</span>':''}
+    </div>`;
+  }).join('');
+  const exact=IDOL_DB.find(x=>x.name.toLowerCase()===q.toLowerCase()||x.alt.some(a=>a.toLowerCase()===q.toLowerCase()));
+  if (!exact&&!hasIdol(q))
+    html+=`<div class="sui nr" onclick="addTag('${esc(q)}',true)">
+      <i class="ti ti-plus"></i><span>"${esc(q)}" 새로 추가하기</span>
+      <span class="sm2">아직 없는 그룹</span></div>`;
+  if (!html){box.style.display='none';return;}
+  box.innerHTML=html; box.style.display='block';
+}
+function addFromInp(){
+  const inp=document.getElementById('idolInp'), q=inp.value.trim(); if(!q) return;
+  const exact=IDOL_DB.find(x=>x.name.toLowerCase()===q.toLowerCase()||x.alt.some(a=>a.toLowerCase()===q.toLowerCase()));
+  addTag(exact?exact.name:q,!exact);
+}
+function addTag(name,isNew){
+  if(hasIdol(name)) return;
+  S.idols.push({name,isNew});
+  document.getElementById('idolInp').value='';
+  document.getElementById('suggB').style.display='none';
+  renderTags(); renderPop(); updDone();
+}
+function rmTag(name){
+  S.idols=S.idols.filter(i=>i.name!==name);
+  renderTags(); renderPop(); updDone();
+}
+function renderTags(){
+  const box=document.getElementById('tagB');
+  document.getElementById('idolCnt').textContent=`${S.idols.length}개 추가됨`;
+  if(!S.idols.length){box.innerHTML='<span style="font-size:11px;color:var(--tx2);">검색해서 #태그처럼 추가해보세요</span>';return;}
+  box.innerHTML=S.idols.map(i=>
+    `<span class="tc"><span style="color:#F472B6;">#</span>${esc(i.name)}${i.isNew?'<span class="nb">NEW</span>':''}<span class="tx-x" onclick="rmTag('${esc(i.name)}')"><i class="ti ti-x"></i></span></span>`
+  ).join('');
+}
+function renderPop(){
+  document.getElementById('popB').innerHTML=POP_TAGS.map(n=>{
+    const on=hasIdol(n);
+    return `<span class="pt${on?' on':''}" onclick="${on?`rmTag('${esc(n)}')`:`addTag('${esc(n)}',false)`}">${on?'<i class="ti ti-check"></i>':'#'}${esc(n)}</span>`;
+  }).join('');
+}
+function updDone(){
+  const btn=document.getElementById('doneBtn'), lbl=document.getElementById('doneLbl');
+  btn.disabled=!S.idols.length;
+  lbl.textContent=S.idols.length?`${S.idols.length}명의 최애로 시작하기`:'최애를 1명 이상 추가해주세요';
+}
+
+// ═══════════════════════════════════════════════
+//  RSS 가져오기
+// ═══════════════════════════════════════════════
+async function proxyFetch(url){
+  let last;
+  for(const mk of PROXIES){
+    const pu=mk(url);
+    try{
+      const r=await fetch(pu, {signal: AbortSignal.timeout ? AbortSignal.timeout(15000) : undefined});
+      if(!r.ok) throw new Error(`HTTP ${r.status}`);
+      if(pu.includes('allorigins')){const d=await r.json();if(!d.contents) throw new Error('empty');return d.contents;}
+      return await r.text();
+    }catch(e){last=e;}
+  }
+  throw last;
+}
+function strip(h){return(h||'').replace(/<[^>]+>/g,'').replace(/&[a-z#0-9]+;/gi,' ').replace(/\s+/g,' ').trim();}
+
+function getImg(item,html){
+  for(const tag of ['media:content','media:thumbnail']){
+    for(const el of item.getElementsByTagName(tag)){
+      const u=el.getAttribute('url');
+      if(u&&u.startsWith('http')) return u;
+    }
+  }
+  for(const el of item.getElementsByTagName('enclosure')){
+    const t=el.getAttribute('type')||'',u=el.getAttribute('url')||'';
+    if(u&&(t.startsWith('image/')||/\.(jpe?g|png|webp|gif)/i.test(u))) return u;
+  }
+  const ce=item.getElementsByTagName('content:encoded')[0]?.textContent||'';
+  const m1=ce.match(/<img[^>]+src=["']([^"']+)["']/i);if(m1) return m1[1];
+  const m2=(html||'').match(/<img[^>]+src=["']([^"']+)["']/i);if(m2) return m2[1];
+  return null;
+}
+
+function parseRSS(xml,src){
+  const doc=new DOMParser().parseFromString(xml,'text/xml');
+  if(doc.querySelector('parsererror')) throw new Error('XML parse error');
+  let items=doc.getElementsByTagName('item'); let atom=false;
+  if(!items.length){items=doc.getElementsByTagName('entry');atom=true;}
+  const arts=[];
+  for(const it of items){
+    const title=strip(it.getElementsByTagName('title')[0]?.textContent||'');
+    let link='';
+    if(atom) link=it.querySelector('link')?.getAttribute('href')||'';
+    else link=strip(it.getElementsByTagName('link')[0]?.textContent||'');
+    const pd=it.getElementsByTagName('pubDate')[0]?.textContent||it.getElementsByTagName('published')[0]?.textContent;
+    const desc=it.getElementsByTagName('description')[0]?.textContent||it.getElementsByTagName('summary')[0]?.textContent||'';
+    const imageUrl=getImg(it,desc);
+    if(title) arts.push({
+      id:`${src.id}::${(link||title).slice(0,180)}`,
+      src,title,desc:strip(desc).slice(0,200),link,imageUrl,
+      pubDate:pd?new Date(pd):null,
+      idol:null,titleTr:null,descTr:null,
+    });
+  }
+  return arts;
+}
+
+async function fetchSrc(src){
+  try{const xml=await proxyFetch(src.url);return{ok:true,arts:parseRSS(xml,src)};}
+  catch(e){console.warn(`[BIAS] ${src.name} 실패:`,e.message);return{ok:false,err:e.message,src};}
+}
+
+async function fetchAll(){
+  S.fetched=0;S.failed=[];
+  const results=await Promise.all(SOURCES.map(fetchSrc));
+  const all=[],seen=new Set();
+  results.forEach(r=>{
+    if(r.ok){S.fetched++;r.arts.forEach(a=>{const k=a.link||a.title;if(!seen.has(k)){seen.add(k);all.push(a);}});}
+    else S.failed.push({name:r.src.name,err:r.err});
+  });
+  all.sort((a,b)=>(b.pubDate?.getTime()??0)-(a.pubDate?.getTime()??0));
+  S.allArts=all;
+}
+
+// ═══════════════════════════════════════════════
+//  아이돌 매칭
+// ═══════════════════════════════════════════════
+function getTerms(name){
+  const f=IDOL_DB.find(x=>x.name.toLowerCase()===name.toLowerCase());
+  return f?[f.name,...f.alt]:[name];
+}
+function matches(a,name){
+  const hay=(a.title+' '+a.desc).toLowerCase();
+  return getTerms(name).some(t=>t.length>=2&&hay.includes(t.toLowerCase()));
+}
+const KPOP_RE=/K-?POP|아이돌|걸그룹|보이그룹|컴백|미니앨범|정규앨범|타이틀곡|팬미팅|데뷔|공연|투어|콘서트|시상식/i;
+
+function categorize(){
+  const filterIdols=S.activeFilter==='전체'?S.idols:S.idols.filter(i=>i.name===S.activeFilter);
+  const p=[],t=[];
+  for(const a of S.allArts){
+    let matched=null;
+    for(const idol of filterIdols){if(matches(a,idol.name)){matched=idol.name;break;}}
+    if(matched) p.push({...a,idol:matched});
+    else if(KPOP_RE.test(a.title+a.desc)||['soompi','allkpop','koreaboo'].includes(a.src.id)) t.push(a);
+  }
+  S.personal=p; S.trending=t;
+}
+
+// ═══════════════════════════════════════════════
+//  피드 렌더링
+// ═══════════════════════════════════════════════
+function skels(n=3){
+  return Array.from({length:n},()=>`
+    <div class="sk-post"><div class="sk-h">
+      <div class="sh sk-av"></div>
+      <div><div class="sh sk-l1"></div><div class="sh sk-l2"></div></div>
+    </div><div class="sh sk-img"></div>
+    <div class="sh sk-l3"></div><div class="sh sk-l4"></div></div>`).join('');
+}
+
+function postHtml(a,isTr=false){
+  const label=a.idol||(isTr?'🔥 트렌딩':a.src.name);
+  const tCls=(isTr&&!a.idol)?'tr':'';
+  const g=hashG(a.id);
+  const init=a.idol?(/[가-힣]/.test(a.idol[0])?a.idol[0]:a.idol.slice(0,2).toUpperCase()):a.src.av;
+  const avSt=`background:${a.src.col}20;border-color:${a.src.col};color:${a.src.col};`;
+  const lk=1000+(Math.abs(a.title.length*137)%24000);
+  const cm=50+(Math.abs(a.title.length*53)%950);
+  const dispTitle=a.titleTr||a.title;
+  const dispDesc=a.descTr||a.desc;
+  const isSaved=S.saved.has(a.id);
+  const imgBlock=a.imageUrl
+    ?`<img src="${esc(a.imageUrl)}" alt="" loading="lazy" onload="this.classList.add('ld')"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
+      <div class="fb g${g}" style="display:none;position:absolute;inset:0;">${esc(init)}</div>`
+    :`<div class="fb g${g}">${esc(init)}</div>`;
+  return `<div class="post" data-id="${esc(a.id)}">
+    <div class="phdr">
+      <div class="av" style="${avSt}">${esc(a.src.av)}</div>
+      <div>
+        <div style="font-size:13px;font-weight:500;color:var(--tx);">${esc(a.src.name)}</div>
+        <div style="font-size:11px;color:var(--tx2);">${ago(a.pubDate)}${a.pubDate?' · ':''}${esc(a.src.country)}</div>
+      </div>
+    </div>
+    <div class="piw" onclick="openArt('${esc(a.link)}','${esc(a.id)}')">${imgBlock}</div>
+    <div class="pacts">
+      <button class="pa" onclick="togLike(this)"><i class="ti ti-heart"></i><span>${fmtN(lk)}</span></button>
+      <button class="pa" onclick="openArt('${esc(a.link)}','${esc(a.id)}')"><i class="ti ti-message-circle"></i><span>${fmtN(cm)}</span></button>
+      <button class="pa ${isSaved?'saved':''}" onclick="togSave(this,'${esc(a.id)}')" title="${isSaved?'저장 취소':'저장하기'}">
+        <i class="ti ${isSaved?'ti-star-filled':'ti-star'}"></i>
+      </button>
+      <button class="pa" onclick="shareArt('${esc(a.link)}','${esc(a.title)}')"><i class="ti ti-share"></i></button>
+    </div>
+    <div class="pbody">
+      <div><span class="ptag ${tCls}">${esc(label)}</span></div>
+      <div class="ptitle">${esc(dispTitle)}</div>
+      ${dispDesc?`<div class="pdesc">${esc(dispDesc)}</div>`:''}
+    </div>
+  </div>`;
+}
+
+function renderFeed(){
+  const box=document.getElementById('feedBox');
+  if(S.fetched===0&&S.failed.length>0){
+    box.innerHTML=`<div class="ferr"><b><i class="ti ti-alert-triangle"></i> 뉴스를 가져올 수 없어요</b>모든 RSS 소스 연결에 실패했어요.<button onclick="doRefresh()">다시 시도</button></div>`;
+    return;
+  }
+  let html='';
+  S.personal.slice(0,S.shownP).forEach(a=>{html+=postHtml(a,false);});
+  if(S.trendOn&&S.trending.length){
+    html+=`<div class="divider"><div class="line"></div><div class="lbl"><i class="ti ti-flame"></i> 지금 K-팝에서 뜨는 소식</div><div class="line"></div></div>`;
+    S.trending.slice(0,S.shownT).forEach(a=>{html+=postHtml(a,true);});
+  }
+  if(!S.shownP&&(!S.trendOn||!S.trending.length)&&S.fetched>0)
+    html+=`<div class="fempty"><i class="ti ti-news-off"></i><p>매칭된 기사가 없어요</p><span>'${S.activeFilter}' 관련 최신 뉴스가 아직 없어요.</span></div>`;
+  box.innerHTML=html;
+}
+
+function loadFirst(){
+  S.shownP=Math.min(PAGE,S.personal.length);
+  if(!S.shownP&&S.trending.length){S.trendOn=true;S.shownT=Math.min(PAGE,S.trending.length);}
+  renderFeed();
+}
+function loadMore(){
+  if(S.loading) return; S.loading=true;
+  const box=document.getElementById('feedBox');
+  const el=document.createElement('div');
+  el.className='fload';el.innerHTML='<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
+  box.appendChild(el);
+  setTimeout(()=>{
+    el.remove();
+    if(S.shownP<S.personal.length) S.shownP=Math.min(S.shownP+PAGE,S.personal.length);
+    else{S.trendOn=true;S.shownT=Math.min(S.shownT+PAGE,S.trending.length);}
+    renderFeed(); S.loading=false;
+  },500);
+}
+function onScroll(){
+  const el=document.getElementById('feedScroll');
+  const hasMore=S.shownP<S.personal.length||S.shownT<S.trending.length;
+  if(!S.loading&&hasMore&&el.scrollTop+el.clientHeight>=el.scrollHeight-80) loadMore();
+}
+function setFilter(name){
+  S.activeFilter=name;S.shownP=0;S.shownT=0;S.trendOn=false;
+  renderFilters();categorize();loadFirst();
+}
+function renderFilters(){
+  document.getElementById('filterRow').innerHTML=
+    ['전체',...S.idols.map(i=>i.name)].map(n=>
+      `<div class="fc${S.activeFilter===n?' active':''}" onclick="setFilter('${esc(n)}')">${esc(n)}</div>`
+    ).join('');
+}
+
+async function doRefresh(){
+  const btn=document.getElementById('refBtn');
+  btn.classList.add('sp');
+  document.getElementById('feedBox').innerHTML=skels(3);
+  try{
+    await fetchAll();
+    categorize();
+    // 번역 필요 여부 확인 후 처리
+    const toTr=[...S.personal.slice(0,PAGE),...S.trending.slice(0,PAGE)];
+    const needsTr=toTr.some(a=>needsTranslation(a.title));
+    if(needsTr){
+      toast('번역 중...','ti-language');
+      const translated=await translateBatch(toTr);
+      translated.forEach(t=>{
+        const pi=S.personal.findIndex(a=>a.id===t.id);if(pi>=0) S.personal[pi]=t;
+        const ti2=S.trending.findIndex(a=>a.id===t.id);if(ti2>=0) S.trending[ti2]=t;
+        // allArts에도 반영
+        const ai=S.allArts.findIndex(a=>a.id===t.id);if(ai>=0) S.allArts[ai]=t;
+      });
+    }
+    S.shownP=0;S.shownT=0;S.trendOn=false;
+    loadFirst();
+    const msg=S.failed.length?`${S.fetched}개 소스 연결 (${S.failed.length}개 실패)`:`${S.allArts.length}개 기사 로드됨`;
+    toast(msg,'ti-rss');
+  }catch(e){console.error(e);toast('뉴스 가져오기 실패','ti-alert-triangle');}
+  finally{btn.classList.remove('sp');}
+}
+
+// ═══════════════════════════════════════════════
+//  기사 상호작용
+// ═══════════════════════════════════════════════
+function openArt(link,id){
+  if(!link){toast('원문 링크를 찾을 수 없어요','ti-alert-triangle');return;}
+  if(id){
+    // 읽은 기사 저장
+    const art=S.allArts.find(a=>a.id===id);
+    if(art&&!S.read.has(id)){S.read.set(id,art);}
+    document.getElementById('pR').textContent=S.read.size;
+  }
+  window.open(link,'_blank','noopener,noreferrer');
+}
+
+function togLike(btn){
+  btn.classList.toggle('liked');
+  const sp=btn.querySelector('span');
+  const n=parseFloat(sp.textContent.replace('K',''))*(sp.textContent.includes('K')?1000:1);
+  sp.textContent=fmtN(btn.classList.contains('liked')?n+1:n-1);
+}
+
+function togSave(btn,id){
+  const art=S.allArts.find(a=>a.id===id);
+  if(!art) return;
+  if(S.saved.has(id)){
+    S.saved.delete(id);
+    btn.classList.remove('saved');
+    btn.querySelector('i').className='ti ti-star';
+    toast('저장 취소됐어요','ti-star');
+  } else {
+    S.saved.set(id,art);
+    btn.classList.add('saved');
+    btn.querySelector('i').className='ti ti-star-filled';
+    toast('저장됐어요! 마이페이지에서 볼 수 있어요','ti-star-filled');
+  }
+  document.getElementById('pS').textContent=S.saved.size;
+  // 프로필 탭 열려있으면 갱신
+  if(document.getElementById('stab-saved').classList.contains('active')) renderProfContent();
+}
+
+function shareArt(link,title){
+  if(!link) return;
+  if(navigator.share) navigator.share({title,url:link}).catch(()=>{});
+  else if(navigator.clipboard)
+    navigator.clipboard.writeText(link)
+      .then(()=>toast('링크 복사됨','ti-clipboard-check'))
+      .catch(()=>toast('복사 실패','ti-x'));
+}
+
+// ═══════════════════════════════════════════════
+//  랭킹
+// ═══════════════════════════════════════════════
+function selRF(btn,filter){
+  btn.parentElement.querySelectorAll('.rfbtn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');S.rankFilter=filter;buildRank();
+}
+function buildRank(){
+  const el=document.getElementById('rankList');
+  const filtered=RANK_DATA.filter(r=>S.rankFilter==='girl'?r.kind==='girl':S.rankFilter==='boy'?r.kind==='boy':true);
+  const notice=`<div class="rank-notice"><i class="ti ti-info-circle"></i>
+    <span>현재 랭킹은 <b>데모 데이터</b>예요. 실제 서비스에서는 검색량·SNS·스트리밍 지표를 실시간으로 집계합니다.</span></div>`;
+  const rows=filtered.map((r,i)=>{
+    const nc=i===0?'gold':i===1?'silver':i===2?'bronze':'';
+    const dc=r.dir==='up'?'rup':r.dir==='down'?'rdown':'rsame';
+    const di=r.dir==='up'?'▲':r.dir==='down'?'▼':'—';
+    return `<div class="ri${i===0?' t1':''}">
+      <div class="rn ${nc}">${i+1}</div>
+      <div class="rav">${r.abbr}</div>
+      <div class="rinf"><div class="rnm">${esc(r.name)}</div><div class="rsc">${esc(r.score)} pts</div>
+        <div class="rbg"><div class="rbf" style="width:0;"></div></div></div>
+      <div class="rch ${dc}">${di} ${esc(r.change)}</div>
+    </div>`;
+  }).join('');
+  el.innerHTML=notice+rows;
+  requestAnimationFrame(()=>el.querySelectorAll('.rbf').forEach((b,i)=>b.style.width=(filtered[i]?.bar??0)+'%'));
+}
+
+// ═══════════════════════════════════════════════
+//  검색 — 전체 소스, 최신순, 번역 적용
+// ═══════════════════════════════════════════════
+let searchDebounce=null;
+function onSrch(val){
+  clearTimeout(searchDebounce);
+  searchDebounce=setTimeout(()=>doSrch(val),300);
+}
+
+async function doSrch(val){
+  const q=val.trim().toLowerCase();
+  const box=document.getElementById('searchBox');
+  if(!q){renderDfltSrch();return;}
+
+  // ★ 핵심: 모든 소스 기사에서 아이돌 이름/키워드로 검색, 최신순
+  const searchTerms=getTerms(val.trim()); // 아이돌 DB에서 별명까지 포함
+  const hits=S.allArts.filter(a=>{
+    const hay=(a.title+' '+a.desc+' '+(a.titleTr||'')+' '+(a.descTr||'')).toLowerCase();
+    // 입력값 자체로도 검색, 아이돌 별명으로도 검색
+    return hay.includes(q)||searchTerms.some(t=>t.length>=2&&hay.includes(t.toLowerCase()));
+  }); // 이미 최신순 정렬됨 (fetchAll에서 sort)
+
+  if(!hits.length){
+    box.innerHTML=`<div style="padding:40px 20px;text-align:center;">
+      <i class="ti ti-music-off" style="font-size:40px;color:var(--tx2);display:block;margin-bottom:12px;"></i>
+      <div style="font-size:14px;font-weight:500;color:var(--tx);margin-bottom:6px;">"${esc(val)}" 관련 기사가 없어요</div>
+      <div style="font-size:12px;color:var(--tx2);line-height:1.6;">피드를 새로고침하거나 다른 키워드로 시도해보세요.</div>
+    </div>`;
+    return;
+  }
+
+  // 번역 필요 기사 처리 (아직 번역 안 된 것들)
+  const needTr=hits.filter(h=>needsTranslation(h.title)&&!h.titleTr).slice(0,20);
+  if(needTr.length){
+    box.innerHTML=`<div style="padding:16px;text-align:center;font-size:12px;color:var(--tx2);">
+      <i class="ti ti-language" style="animation:spin .8s linear infinite;margin-right:4px;"></i> 번역 중... (${hits.length}건)</div>`;
+    const translated=await translateBatch(needTr);
+    translated.forEach(t=>{const ai=S.allArts.findIndex(a=>a.id===t.id);if(ai>=0) S.allArts[ai]=t;});
+  }
+  // 최종 표시 (번역 반영된 버전)
+  const final=hits.map(h=>S.allArts.find(a=>a.id===h.id)||h);
+
+  let html=`<div style="padding:12px 14px 4px;font-size:12px;font-weight:500;color:var(--tx2);">"${esc(val)}" — 최신순 ${final.length}건 / 전체 ${S.allArts.length}건</div>`;
+  final.forEach(a=>{
+    const g=hashG(a.id);const init=a.src.av;
+    const dispTitle=a.titleTr||a.title;
+    const isSaved=S.saved.has(a.id);
+    const thumb=a.imageUrl
+      ?`<div class="snt"><img src="${esc(a.imageUrl)}" alt="" loading="lazy" onerror="this.parentElement.innerHTML='<div class=&quot;fb2&quot;>${esc(init)}</div>'"></div>`
+      :`<div class="snt"><div class="fb2">${esc(init)}</div></div>`;
+    html+=`<div class="sni">
+      <div onclick="openArt('${esc(a.link)}','${esc(a.id)}')" style="display:flex;gap:10px;flex:1;min-width:0;">
+        ${thumb}
+        <div style="flex:1;min-width:0;">
+          <div style="margin-bottom:3px;"><span style="background:${a.src.col};color:#fff;font-size:10px;padding:2px 7px;border-radius:20px;">${esc(a.src.name)}</span></div>
+          <div style="font-size:13px;font-weight:500;color:var(--tx);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${esc(dispTitle)}</div>
+          <div style="font-size:11px;color:var(--tx2);margin-top:4px;">${ago(a.pubDate)}</div>
+        </div>
+      </div>
+      <button class="pa ${isSaved?'saved':''}" onclick="togSave(this,'${esc(a.id)}')" style="flex-shrink:0;padding:4px;">
+        <i class="ti ${isSaved?'ti-star-filled':'ti-star'}" style="font-size:16px;"></i>
+      </button>
+    </div>`;
+  });
+  box.innerHTML=html;
+}
+
+function clrSrch(){document.getElementById('searchInp').value='';renderDfltSrch();}
+function renderDfltSrch(){
+  const tags=S.idols.length?S.idols.slice(0,5).map(i=>i.name):['BTS','BLACKPINK','aespa','NewJeans','IVE'];
+  const srcCounts={};
+  S.allArts.forEach(a=>{srcCounts[a.src.name]=(srcCounts[a.src.name]||0)+1;});
+  const srcRows=Object.entries(srcCounts).sort((a,b)=>b[1]-a[1])
+    .map(([n,c])=>`<span style="font-size:11px;color:var(--tx2);">${esc(n)} <b style="color:var(--tx);">${c}</b>건</span>`).join('  ');
+  document.getElementById('searchBox').innerHTML=`
+    <div style="padding:12px 14px 4px;font-size:12px;font-weight:500;color:var(--tx2);">${S.idols.length?'내 최애':'인기 검색'}</div>
+    <div style="padding:4px 14px 14px;display:flex;flex-wrap:wrap;gap:8px;">
+      ${tags.map(n=>`<span style="background:#FDF2F8;border:.5px solid #F9A8D4;border-radius:20px;padding:5px 12px;font-size:12px;color:#9D174D;cursor:pointer;font-weight:500;" onclick="document.getElementById('searchInp').value='${esc(n)}';doSrch('${esc(n)}')">${esc(n)}</span>`).join('')}
+    </div>
+    ${srcRows?`<div style="padding:8px 14px 4px;font-size:11px;color:var(--tx2);font-weight:500;">소스별 기사 수</div>
+    <div style="padding:4px 14px 16px;display:flex;flex-wrap:wrap;gap:12px;">${srcRows}</div>`:''}
+    <div style="padding:4px 14px 10px;font-size:11px;color:var(--tx2);">전체 ${S.allArts.length}건 검색 가능</div>`;
+}
+
+// ═══════════════════════════════════════════════
+//  프로필 — 읽은 기사 / 저장한 기사 탭
+// ═══════════════════════════════════════════════
+function switchProfTab(tab){
+  S.profTab=tab;
+  document.querySelectorAll('.stab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(`stab-${tab}`).classList.add('active');
+  renderProfContent();
+}
+
+function renderProfContent(){
+  const box=document.getElementById('profContent');
+  const items=S.profTab==='saved'?[...S.saved.values()]:[...S.read.values()];
+  if(!items.length){
+    const emptyMsg=S.profTab==='saved'
+      ?'아직 저장한 기사가 없어요.<br>기사의 ⭐ 버튼을 눌러 저장해보세요.'
+      :'아직 읽은 기사가 없어요.<br>기사를 클릭하면 자동으로 기록돼요.';
+    box.innerHTML=`<div style="padding:40px 20px;text-align:center;">
+      <i class="ti ${S.profTab==='saved'?'ti-star':'ti-book-open'}" style="font-size:36px;color:var(--tx2);display:block;margin-bottom:10px;"></i>
+      <div style="font-size:12px;color:var(--tx2);line-height:1.6;">${emptyMsg}</div>
+    </div>`;
+    return;
+  }
+  // 최신순 (저장/읽은 순으로 역순)
+  const sorted=[...items].reverse();
+  box.innerHTML=sorted.map(a=>{
+    const dispTitle=a.titleTr||a.title;
+    const isSaved=S.saved.has(a.id);
+    const thumb=a.imageUrl
+      ?`<div class="saved-thumb"><img src="${esc(a.imageUrl)}" alt="" loading="lazy" onerror="this.parentElement.innerHTML='<div class=&quot;fi&quot;>${esc(a.src.av)}</div>'"></div>`
+      :`<div class="saved-thumb"><div class="fi">${esc(a.src.av)}</div></div>`;
+    return `<div class="saved-item">
+      <div onclick="openArt('${esc(a.link)}','${esc(a.id)}')" style="display:flex;gap:10px;flex:1;min-width:0;">
+        ${thumb}
+        <div style="flex:1;min-width:0;">
+          <div style="margin-bottom:3px;"><span style="background:${a.src.col};color:#fff;font-size:10px;padding:2px 6px;border-radius:20px;">${esc(a.src.name)}</span></div>
+          <div style="font-size:12px;font-weight:500;color:var(--tx);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${esc(dispTitle)}</div>
+          <div style="font-size:10px;color:var(--tx2);margin-top:3px;">${ago(a.pubDate)}</div>
+        </div>
+      </div>
+      ${S.profTab==='saved'?`<button class="pa saved" onclick="togSave(this,'${esc(a.id)}')" style="flex-shrink:0;padding:4px;">
+        <i class="ti ti-star-filled" style="font-size:16px;"></i></button>`:''}
+    </div>`;
+  }).join('');
+}
+
+function renderProf(){
+  document.getElementById('profIdols').innerHTML=
+    S.idols.map(i=>`<span class="ichip">${esc(i.name)}${i.isNew?' <span style="font-size:9px;color:#F472B6;">NEW</span>':''}</span>`).join('')+
+    '<span class="ichip" style="background:var(--bg2);border-color:var(--bd);color:var(--tx2);">+ 추가</span>';
+  document.getElementById('pF').textContent=S.idols.length;
+  document.getElementById('pR').textContent=S.read.size;
+  document.getElementById('pS').textContent=S.saved.size;
+  document.getElementById('langLabel').textContent=S.langName;
+  document.getElementById('profLangRow').textContent=`🇰🇷 대한민국 · ${S.langName}`;
+  renderProfContent();
+}
+
+// ═══════════════════════════════════════════════
+//  알림 설정 시트
+// ═══════════════════════════════════════════════
+const NOTIF_MODES=[
+  {id:'instant',label:'새 기사 즉시 알림',desc:'최애 기사가 올라오면 바로 알림 — 하루 수십 건 가능',icon:'🔔',iconBg:'#FDF2F8',iconCol:'#F472B6'},
+  {id:'smart',  label:'스마트 묶음 알림',desc:'1시간마다 한 번에 묶어서 알림 — 추천',icon:'✨',iconBg:'#EDE7F6',iconCol:'#7C3AED'},
+  {id:'daily',  label:'하루 1회 요약 알림',desc:'매일 오전 9시, 전날 주요 소식만 정리해서 알림',icon:'📋',iconBg:'#E8F5E9',iconCol:'#2E7D32'},
+  {id:'off',    label:'알림 끄기',desc:'앱을 직접 열어야 새 기사를 확인할 수 있어요',icon:'🔕',iconBg:'var(--bg2)',iconCol:'var(--tx2)'},
+];
+
+function showNotifSheet(){
+  clSheet();
+  const ph=document.getElementById('phone');
+  const ov=document.createElement('div');ov.className='overlay';ov.onclick=clSheet;
+  const sh=document.createElement('div');sh.className='sheet';
+
+  const modeRows=NOTIF_MODES.map(m=>`
+    <div class="radio-opt${S.notifMode===m.id?' sel':''}" onclick="setNotifMode('${m.id}')">
+      <div style="width:36px;height:36px;border-radius:10px;background:${m.iconBg};display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">${m.icon}</div>
+      <div style="flex:1;">
+        <div class="radio-title" style="font-size:13px;font-weight:500;color:var(--tx);">${m.label}</div>
+        <div style="font-size:11px;color:var(--tx2);margin-top:2px;">${m.desc}</div>
+      </div>
+      <div class="radio-dot">${S.notifMode===m.id?'<span style="width:6px;height:6px;border-radius:50%;background:#fff;display:block;margin:auto;"></span>':''}</div>
+    </div>`).join('');
+
+  sh.innerHTML=`<div class="shdl"></div>
+    <div class="shh"><div class="sht">🔔 알림 설정</div><button class="shc" onclick="clSheet()"><i class="ti ti-x"></i></button></div>
+    <div class="shb">
+      <div style="font-size:12px;color:var(--tx2);line-height:1.6;padding:4px 0 12px;">
+        내 최애의 새 기사가 올라왔을 때 어떻게 알림을 받을지 선택하세요.
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;">${modeRows}</div>
+
+      <div style="margin-top:16px;padding:12px;background:var(--bg2);border-radius:var(--r);">
+        <div style="font-size:12px;font-weight:500;color:var(--tx);margin-bottom:10px;">⚡ 즉시 알림 키워드 (스마트 묶음 적용 중에도 바로 알림)</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          ${[{key:'comeback',label:'컴백/신보 발매',icon:'💿'},
+             {key:'concert',label:'콘서트/공연 발표',icon:'🎤'},
+             {key:'award',label:'시상식/수상 소식',icon:'🏆'}].map(k=>`
+          <div class="notif-row" style="padding:6px 0;border-bottom:none;">
+            <span style="font-size:16px;">${k.icon}</span>
+            <span style="flex:1;font-size:12px;color:var(--tx);">${k.label}</span>
+            <label class="toggle">
+              <input type="checkbox" ${S.notifKeywords?'checked':''} onchange="S.notifKeywords=this.checked"/>
+              <span class="toggle-track"></span>
+              <span class="toggle-thumb"></span>
+            </label>
+          </div>`).join('')}
+        </div>
+      </div>
+
+      <div style="margin-top:12px;padding:10px 12px;background:#EEF2FF;border-radius:var(--r);font-size:11px;color:#4338CA;line-height:1.6;">
+        <i class="ti ti-info-circle"></i> 실제 푸시 알림은 서버 인프라가 필요해요. 지금은 설정 UI 프로토타입이에요.
+      </div>
+    </div>`;
+  ph.appendChild(ov);ph.appendChild(sh);
+}
+
+function setNotifMode(mode){
+  S.notifMode=mode;
+  const labels={instant:'즉시 알림',smart:'스마트 묶음',daily:'하루 1회',off:'알림 꺼짐'};
+  document.getElementById('notifLabel').textContent=labels[mode];
+  clSheet();
+  toast(`알림 설정: ${labels[mode]}으로 변경됐어요`,'ti-bell');
+}
+
+// ═══════════════════════════════════════════════
+//  뉴스 소스 시트
+// ═══════════════════════════════════════════════
+function showSrcSheet(){
+  clSheet();
+  const ph=document.getElementById('phone');
+  const ov=document.createElement('div');ov.className='overlay';ov.onclick=clSheet;
+  const sh=document.createElement('div');sh.className='sheet';
+  const list=SOURCES.map(s=>{
+    const ok=!S.failed.find(f=>f.name===s.name);
+    const cnt=S.allArts.filter(a=>a.src.id===s.id).length;
+    return `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;">
+      <div class="av" style="background:${s.col}20;border-color:${s.col};color:${s.col};width:30px;height:30px;font-size:10px;">${s.av}</div>
+      <div style="flex:1;"><div style="font-size:13px;font-weight:500;color:var(--tx);">${s.name}</div>
+      <div style="font-size:11px;color:var(--tx2);">${s.country} · ${cnt}건</div></div>
+      <span style="font-size:10px;color:${ok?'#10B981':'#EF4444'};">${ok?'<i class="ti ti-check"></i> 연결됨':'<i class="ti ti-x"></i> 실패'}</span>
+    </div>`;
+  }).join('');
+  sh.innerHTML=`<div class="shdl"></div>
+    <div class="shh"><div class="sht">뉴스 소스 정보</div><button class="shc" onclick="clSheet()"><i class="ti ti-x"></i></button></div>
+    <div class="shb">
+      <div style="font-size:12px;color:var(--tx2);line-height:1.6;margin-bottom:12px;">한국 K-팝 매체들의 공개 RSS 피드를 직접 가져와서 보여줘요. 기사 원문은 각 매체에서 열려요.</div>
+      <div style="border-top:.5px solid var(--bd);padding-top:8px;">${list}</div>
+      <div style="font-size:11px;color:var(--tx2);line-height:1.6;margin-top:12px;padding:10px;background:var(--bg2);border-radius:8px;">
+        <i class="ti ti-info-circle"></i> RSS URL은 시간이 지나면서 바뀔 수 있어요. 실패한 소스는 콘솔(F12)에서 확인하세요.
+      </div>
+    </div>`;
+  ph.appendChild(ov);ph.appendChild(sh);
+}
+
+function clSheet(){
+  const ph=document.getElementById('phone');
+  ph.querySelector('.overlay')?.remove();
+  ph.querySelector('.sheet')?.remove();
+}
+
+// ═══════════════════════════════════════════════
+//  스케줄
+// ═══════════════════════════════════════════════
+const SCHED=[
+  {id:'s1',day:'5월 9일 (금)',dot:'#F472B6',badge:'bc',bl:'컴백',name:'BTS 새 앨범 발매',detail:'오후 6시 · 전 세계 동시 발매',sc:'팬 제보 + 공식 확인',loc:'전 세계 동시 발매',start:'2026-05-09T18:00:00',end:'2026-05-09T19:00:00',tz:'Asia/Seoul',desc:'BTS가 새 앨범을 전 세계 동시에 공개합니다.'},
+  {id:'s2',day:'5월 9일 (금)',dot:'#9C27B0',badge:'bn',bl:'콘서트',name:'TWICE 월드투어 — 서울 Day 1',detail:'오후 7시 · 잠실 올림픽주경기장',sc:'공식 발표',loc:'잠실 올림픽주경기장, 서울',start:'2026-05-09T19:00:00',end:'2026-05-09T22:00:00',tz:'Asia/Seoul',desc:'TWICE 월드투어 서울 첫째 날 공연.'},
+  {id:'s3',day:'5월 12일 (월)',dot:'#00ACC1',badge:'bf',bl:'팬미팅',name:'aespa 팬미팅 — 도쿄',detail:'오후 5시 · 도쿄 국제포럼',sc:'팬 제보',loc:'도쿄 국제포럼, 일본',start:'2026-05-12T17:00:00',end:'2026-05-12T19:00:00',tz:'Asia/Tokyo',desc:'aespa 도쿄 팬미팅.'},
+  {id:'s4',day:'5월 12일 (월)',dot:'#F472B6',badge:'bc',bl:'컴백',name:'NewJeans 미니앨범 발매',detail:'자정 · 디지털 선발매',sc:'공식 발표',loc:'전 세계 디지털 발매',start:'2026-05-12T00:00:00',end:'2026-05-12T01:00:00',tz:'Asia/Seoul',desc:'NewJeans 새 미니앨범 디지털 선발매.'},
+  {id:'s5',day:'5월 18일 (일)',dot:'#FF9800',badge:'ba',bl:'시상식',name:'Billboard Music Awards 2026',detail:'오전 9시 (한국시간) · 라스베이거스',sc:'공식 발표',loc:'MGM Grand Garden Arena, 라스베이거스',start:'2026-05-18T09:00:00',end:'2026-05-18T12:00:00',tz:'Asia/Seoul',desc:'2026 빌보드 뮤직 어워드.'},
+];
+function renderSched(){
+  const box=document.getElementById('schedBox');
+  let html=`<div class="csb"><i class="ti ti-users" style="font-size:18px;color:#F472B6;"></i>
+    <div style="flex:1;"><div style="font-size:13px;font-weight:500;color:#880E4F;">일정 제보하기</div>
+    <div style="font-size:11px;color:#AD1457;margin-top:1px;">팬 여러분이 직접 일정을 추가할 수 있어요</div></div>
+    <i class="ti ti-chevron-right" style="color:#F472B6;"></i></div>`;
+  let lastDay='';
+  SCHED.forEach(s=>{
+    if(s.day!==lastDay){html+=`<div class="sday">${s.day}</div>`;lastDay=s.day;}
+    const added=S.addedSched.has(s.id);
+    html+=`<div class="sit" onclick="openSD('${s.id}')">
+      <div class="sdot" style="background:${s.dot};"></div>
+      <div class="scon"><span class="sbadge ${s.badge}">${s.bl}</span>
+        <div class="snm">${esc(s.name)}</div><div class="sdt">${esc(s.detail)}</div>
+        <div class="ssc">${esc(s.sc)}</div></div>
+      <button class="sadd${added?' on':''}" onclick="event.stopPropagation();quickSched('${s.id}',this)">
+        <i class="ti ${added?'ti-calendar-check':'ti-calendar-plus'}"></i></button>
+    </div>`;
+  });
+  box.innerHTML=html;
+}
+function selSF(c){c.parentElement.querySelectorAll('.sch').forEach(x=>x.classList.remove('active'));c.classList.add('active');}
+function openSD(id){
+  const s=SCHED.find(x=>x.id===id);if(!s) return;
+  clSheet();
+  const ph=document.getElementById('phone');
+  const ov=document.createElement('div');ov.className='overlay';ov.onclick=clSheet;
+  const sh=document.createElement('div');sh.className='sheet';
+  const sd=new Date(s.start),ed=new Date(s.end);
+  const dStr=sd.toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'long'});
+  const tStr=`${sd.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})} - ${ed.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})}`;
+  sh.innerHTML=`<div class="shdl"></div>
+    <div class="shh"><span class="sbadge ${s.badge}">${s.bl}</span><button class="shc" onclick="clSheet()"><i class="ti ti-x"></i></button></div>
+    <div class="shsub">${esc(s.name)}</div>
+    <div class="shb">
+      <div class="mrow"><div class="mic"><i class="ti ti-calendar"></i></div><div><div class="ml">날짜</div><div class="mv">${dStr}</div></div></div>
+      <div class="mrow"><div class="mic"><i class="ti ti-clock"></i></div><div><div class="ml">시간 (${esc(s.tz)})</div><div class="mv">${tStr}</div></div></div>
+      <div class="mrow"><div class="mic"><i class="ti ti-map-pin"></i></div><div><div class="ml">장소</div><div class="mv">${esc(s.loc)}</div></div></div>
+      <div class="mrow"><div class="mic"><i class="ti ti-info-circle"></i></div><div><div class="ml">출처</div><div class="mv">${esc(s.sc)}</div></div></div>
+    </div>
+    <div style="padding:0 18px 6px;font-size:11px;color:var(--tx2);text-transform:uppercase;letter-spacing:.5px;">캘린더에 추가</div>
+    <div class="sgrid">
+      <button class="ssbtn p" onclick="dlICS('${s.id}')"><i class="ti ti-calendar-plus"></i> 내 캘린더 저장 (.ics)</button>
+      <button class="ssbtn" onclick="openGcal('${s.id}')"><i class="ti ti-brand-google"></i> Google 캘린더</button>
+      <button class="ssbtn" onclick="cpyEvt('${s.id}')"><i class="ti ti-link"></i> 정보 복사</button>
+    </div>
+    <div class="shnote"><i class="ti ti-info-circle" style="font-size:12px;"></i> .ics는 iPhone, Android, Outlook 등 거의 모든 캘린더 앱에서 열 수 있어요.</div>`;
+  ph.appendChild(ov);ph.appendChild(sh);
+}
+function quickSched(id,btn){dlICS(id);S.addedSched.add(id);btn.classList.add('on');btn.innerHTML='<i class="ti ti-calendar-check"></i>';}
+function icsDate(iso){const d=new Date(iso),p=n=>String(n).padStart(2,'0');return `${d.getUTCFullYear()}${p(d.getUTCMonth()+1)}${p(d.getUTCDate())}T${p(d.getUTCHours())}${p(d.getUTCMinutes())}${p(d.getUTCSeconds())}Z`;}
+function icsE(s){return String(s).replace(/\\/g,'\\\\').replace(/;/g,'\\;').replace(/,/g,'\\,').replace(/\n/g,'\\n');}
+function buildICS(s){
+  const now=new Date(),p=n=>String(n).padStart(2,'0');
+  const stamp=`${now.getUTCFullYear()}${p(now.getUTCMonth()+1)}${p(now.getUTCDate())}T${p(now.getUTCHours())}${p(now.getUTCMinutes())}${p(now.getUTCSeconds())}Z`;
+  return['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//BIAS//KO','CALSCALE:GREGORIAN','METHOD:PUBLISH',
+    'BEGIN:VEVENT',`UID:${s.id}-${Date.now()}@bias.app`,`DTSTAMP:${stamp}`,
+    `DTSTART:${icsDate(s.start)}`,`DTEND:${icsDate(s.end)}`,
+    `SUMMARY:${icsE(s.name)}`,`LOCATION:${icsE(s.loc)}`,
+    `DESCRIPTION:${icsE(s.desc+'\\n\\n출처: '+s.sc+'\\n공유: BIAS 앱')}`,
+    'BEGIN:VALARM','TRIGGER:-PT1H','ACTION:DISPLAY',`DESCRIPTION:${icsE(s.name)} 1시간 전`,'END:VALARM',
+    'END:VEVENT','END:VCALENDAR'].join('\r\n');
+}
+function dlICS(id){
+  const s=SCHED.find(x=>x.id===id);if(!s) return;
+  const blob=new Blob([buildICS(s)],{type:'text/calendar;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download=`${s.name.replace(/[^\w가-힣 ]/g,'')}.ics`;
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+  S.addedSched.add(id);toast('내 캘린더에 추가됐어요','ti-calendar-check');renderSched();
+}
+function openGcal(id){
+  const s=SCHED.find(x=>x.id===id);if(!s) return;
+  window.open(`https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(s.name)}&dates=${icsDate(s.start)}/${icsDate(s.end)}&details=${encodeURIComponent(s.desc+'\n\n출처: '+s.sc)}&location=${encodeURIComponent(s.loc)}`,'_blank');
+  toast('Google 캘린더로 이동합니다','ti-external-link');
+}
+function cpyEvt(id){
+  const s=SCHED.find(x=>x.id===id);if(!s) return;
+  const sd=new Date(s.start);
+  const txt=`📅 ${s.name}\n🗓 ${sd.toLocaleDateString('ko-KR')}\n⏰ ${s.detail}\n📍 ${s.loc}\n\n(BIAS 앱에서 공유)`;
+  if(navigator.clipboard?.writeText) navigator.clipboard.writeText(txt).then(()=>toast('복사됐어요','ti-clipboard-check'),()=>fbCopy(txt));
+  else fbCopy(txt);
+}
+function fbCopy(txt){
+  const ta=document.createElement('textarea');ta.value=txt;ta.style.position='absolute';ta.style.left='-9999px';
+  document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy');toast('복사됐어요','ti-clipboard-check');}catch{toast('복사 실패','ti-x');}
+  document.body.removeChild(ta);
+}
+
+// ═══════════════════════════════════════════════
+//  탭 네비게이션
+// ═══════════════════════════════════════════════
+function goTab(tab){
+  document.querySelectorAll('.scr').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nbtn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('scr-'+tab).classList.add('active');
+  document.getElementById('tab-'+tab).classList.add('active');
+  if(tab==='rank') buildRank();
+  if(tab==='sched') renderSched();
+  if(tab==='profile') renderProf();
+  if(tab==='search') renderDfltSrch();
+}
+
+// ═══════════════════════════════════════════════
+//  앱 시작
+// ═══════════════════════════════════════════════
+async function startApp(){
+  if(!S.idols.length) return;
+  document.getElementById('ob').style.display='none';
+  document.getElementById('app').style.display='flex';
+  document.getElementById('langLabel').textContent=S.langName;
+  renderFilters();buildRank();renderSched();renderProf();renderDfltSrch();
+  document.getElementById('feedBox').innerHTML=skels(3);
+  await doRefresh();
+}
+
+// 초기: BTS + NewJeans 미리 추가
+addTag('BTS',false);addTag('NewJeans',false);
+
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.sw')&&!e.target.closest('#suggB'))
+    document.getElementById('suggB').style.display='none';
+});
+
+console.log('[BIAS] v4 초기화 완료');
+</script>
+</body>
+</html>
